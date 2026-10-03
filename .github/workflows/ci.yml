@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   quality:
-    uses: WyattAu/engineering-standards/.github/workflows/rust-kit.yml@589f761d0a33074b3d936b8bc78945227ab88aa # main @ 2026-10-03
+    uses: WyattAu/engineering-standards/.github/workflows/rust-kit.yml@30e56e97d87ea0de0c2f7c81d1458b52c51e5a4a # bisect: fresh untried SHA
     with:
       tier: a
       all-features: true
