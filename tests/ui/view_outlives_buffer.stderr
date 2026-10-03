@@ -1,0 +1,12 @@
+error[E0597]: `buf` does not live long enough
+  --> tests/ui/view_outlives_buffer.rs:9:48
+   |
+ 7 |     let view = {
+   |         ---- borrow later stored here
+ 8 |         let buf: [u8; 64] = [0; 64];
+   |             --- binding `buf` declared here
+ 9 |         match wire_kit::sbe::SbeHeader::decode(&buf, wire_kit::Endianness::Little) {
+   |                                                ^^^^ borrowed value does not live long enough
+...
+13 |     };
+   |     - `buf` dropped here while still borrowed

@@ -1,0 +1,65 @@
+[package]
+name = "wire-kit"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/WyattAu/wire-kit"
+homepage = "https://github.com/WyattAu/wire-kit"
+documentation = "https://docs.rs/wire-kit"
+description = "Zero-copy binary wire codecs — SBE block encoding/decoding and FIX 4.4 tag=value, bounds-checked, allocation-free decode"
+readme = "README.md"
+keywords = ["sbe", "fix", "fix44", "wire", "no-std"]
+categories = ["encoding", "parser-implementations", "no-std"]
+exclude = [".github/", "fuzz/", "supply-chain/"]
+
+# Layer model: docs/layers.md in WyattAu/engineering-standards.
+# L1 — substrate: zero estate-internal dependencies by mandate (edge-format leaf).
+[package.metadata.layers]
+tier = "L1"
+
+[features]
+default = ["std"]
+# std-bound surface area: runtime SIMD feature detection
+# (`is_x86_feature_detected!`). no_std builds use the always-compiled
+# scalar/SWAR path, or compile-time-selected baseline SIMD (SSE2 on x86_64,
+# NEON on aarch64) — documented, never silently degraded.
+std = []
+# REQ-WIRE-006 — core::arch fast paths for delimiter scanning. The scalar
+# SWAR oracle is always compiled in both feature states.
+simd = []
+
+# No runtime dependencies: endianness via `from_le_bytes`/`from_be_bytes`,
+# SIMD via `core::arch` — byteorder-free by mandate (REQ-WIRE-004).
+
+[dev-dependencies]
+proptest = "1"
+criterion = "0.5"
+trybuild = "1"
+
+[[bench]]
+name = "scan"
+harness = false
+
+[[bench]]
+name = "sbe_decode"
+harness = false
+
+[lints.rust]
+missing_docs = "deny"
+unsafe_code = "deny"
+
+# Tier A decoder discipline (REQ-WIRE-003 as lints): decoders are the
+# estate's canonical "never panics on input" surface. The fuzz/dev targets
+# lift these at the file level with justification; the lib target never does.
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "deny"
+undocumented_unsafe_blocks = "deny"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1

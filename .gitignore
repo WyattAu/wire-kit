@@ -1,0 +1,6 @@
+target/
+Cargo.lock
+fuzz/artifacts
+fuzz/coverage
+fuzz/target
+wip
