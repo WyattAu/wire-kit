@@ -167,7 +167,7 @@ impl<'a> MdIncrementalRefresh<'a> {
     ///   the declared fixed block, or the declared block cannot hold the
     ///   fixed fields.
     /// - [`WireError::UnsupportedSchemaVersion`] — version above the
-    ///   supported maximum (from [`SbeHeader::decode`]).
+    ///   supported maximum (from [`crate::sbe::SbeHeader::decode`]).
     /// - [`WireError::UnknownMessageType`] — `template_id` is not this
     ///   block's [`TEMPLATE_ID`].
     ///

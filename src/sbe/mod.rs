@@ -41,7 +41,7 @@ pub enum Endianness {
 /// wire-kit reference schema id — `"WK"` (`0x57 0x4B`) in the header.
 pub const SCHEMA_ID: u16 = 0x574B;
 /// Highest SBE schema version this build decodes; frames declaring a higher
-/// version are rejected with [`WireError::UnsupportedSchemaVersion`].
+/// version are rejected with [`crate::WireError::UnsupportedSchemaVersion`].
 pub const MAX_SCHEMA_VERSION: u16 = 1;
 /// Version written by [`Encoder::write_header`] (== [`MAX_SCHEMA_VERSION`]).
 pub const CURRENT_SCHEMA_VERSION: u16 = MAX_SCHEMA_VERSION;

@@ -45,7 +45,7 @@ fn soh_lane_mask(word: u64) -> u64 {
 ///
 /// Eight bytes per step inside a `u64` (SWAR), byte loop for the tail.
 /// Identical results to [`find_soh_reference`] and — under feature `simd` —
-/// to [`find_soh_simd`], on every input.
+/// to [`crate::scan::find_soh_simd`], on every input.
 ///
 /// [REQ-WIRE-006]: crate::req::WIRE_006
 pub fn find_soh(buf: &[u8]) -> Option<usize> {

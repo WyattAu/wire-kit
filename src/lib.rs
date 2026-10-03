@@ -28,7 +28,7 @@
 //!
 //! FIX `0x01` delimiter search uses `core::arch` intrinsics behind the `simd`
 //! feature (SSE2/AVX2 on x86_64, NEON on aarch64), with a scalar/SWAR
-//! reference ([`find_soh`]) that is **always compiled** and serves as the
+//! reference ([`scan::find_soh`]) that is **always compiled** and serves as the
 //! differential oracle. Under `std`, the `simd` path runtime-dispatches via
 //! `is_x86_feature_detected!`; `no_std` builds use the scalar path (or
 //! compile-time baseline SIMD, documented in [`scan`]).
