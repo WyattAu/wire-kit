@@ -98,10 +98,6 @@ version = "0.3.34"
 criteria = "safe-to-run"
 
 [[exemptions.getrandom]]
-version = "0.3.4"
-criteria = "safe-to-run"
-
-[[exemptions.getrandom]]
 version = "0.4.3"
 criteria = "safe-to-run"
 
