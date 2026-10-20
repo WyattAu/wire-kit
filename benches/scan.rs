@@ -11,7 +11,8 @@
 #![allow(clippy::unwrap_used, clippy::expect_used, clippy::panic)]
 #![allow(clippy::indexing_slicing, missing_docs)] // criterion_group emits undocumented items
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 use wire_kit::scan::{find_soh, find_soh_reference};
 
 /// FIX-shaped traffic: alternating printable fields and SOH delimiters.

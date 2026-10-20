@@ -11,7 +11,8 @@
 #![allow(clippy::unwrap_used, clippy::expect_used, clippy::panic)]
 #![allow(clippy::indexing_slicing, missing_docs)] // criterion_group emits undocumented items
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{criterion_group, criterion_main, Criterion};
+use std::hint::black_box;
 use wire_kit::corpus::{generate_md_frame, Lcg64, CORPUS_SEED};
 use wire_kit::sbe::md::MdIncrementalRefresh;
 use wire_kit::sbe::Endianness;
