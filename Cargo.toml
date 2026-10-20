@@ -35,7 +35,7 @@ simd = []
 
 [dev-dependencies]
 proptest = "1"
-criterion = "0.5"
+criterion = "0.8"
 trybuild = "1"
 
 [[bench]]
