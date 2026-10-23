@@ -1,4 +1,5 @@
 # wire-kit
+[![Estate integration](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml)
 
 Zero-copy binary wire codecs: SBE block encoding/decoding and FIX 4.4
 tag=value, bounds-checked, allocation-free decode.
