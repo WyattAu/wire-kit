@@ -4,9 +4,9 @@ All notable changes to this project will be documented in this file.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning:
 [SemVer](https://semver.org/).
 
-## [0.1.0] — 2026-10-03
+## [0.1.0]: 2026-10-03
 
-Initial release. Implements `specs/wire-kit.md` (REQ-WIRE-001…007) — L1
+Initial release. Implements `specs/wire-kit.md` (REQ-WIRE-001…007): L1
 substrate, zero estate deps, zero runtime deps.
 
 ### Added
@@ -25,12 +25,12 @@ substrate, zero estate deps, zero runtime deps.
 - **Typed errors** ([REQ-WIRE-003]): exhaustive `WireError`
   (`InsufficientBytes`, `InvalidTag`, `BadChecksum`, `InvalidEnum`,
   `InvalidGroupCount`, `UnsupportedSchemaVersion`, `InvalidUtf8`,
-  `UnknownMessageType`). Decoders are total — no panics, no OOB reads;
+  `UnknownMessageType`). Decoders are total: no panics, no OOB reads;
   deny-level panics/indexing/unwrap lints on the lib target; one cargo-fuzz
   target per decoder (`sbe_decode`, `fix_parse`, `find_soh`).
 - **Endianness** ([REQ-WIRE-004]): explicit per message block
   (`Endianness` parameter on every generic entry point; carried on views);
-  `from_le_bytes`/`from_be_bytes` only — byteorder-free.
+  `from_le_bytes`/`from_be_bytes` only: byteorder-free.
 - **SIMD scanning** ([REQ-WIRE-006]): feature-gated `core::arch` fast paths
   (SSE2/AVX2 on x86_64, NEON on aarch64) with the always-compiled SWAR oracle
   `find_soh` (+ `find_soh_reference` byte loop); runtime dispatch under `std`

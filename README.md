@@ -1,14 +1,14 @@
 # wire-kit
 
-Zero-copy binary wire codecs — SBE block encoding/decoding and FIX 4.4
+Zero-copy binary wire codecs: SBE block encoding/decoding and FIX 4.4
 tag=value, bounds-checked, allocation-free decode.
 
-**Layer:** L1 — substrate · **Estate deps:** zero (by mandate — edge-format
+**Layer:** L1: substrate · **Estate deps:** zero (by mandate: edge-format
 leaf) · **Runtime deps:** zero · `no_std`-capable (`core` only;
 `std` feature only for runtime SIMD detection).
 
 Implements [`specs/wire-kit.md`](https://github.com/WyattAu/engineering-standards/blob/main/specs/wire-kit.md)
-(REQ-WIRE-001…007). Hand-rolled codecs per the spec's flagged decision 1 —
+(REQ-WIRE-001…007). Hand-rolled codecs per the spec's flagged decision 1:
 no SBE schema codegen in v1; the schema layer is used for **test corpus
 generation only** ([REQ-WIRE-007]).
 
@@ -20,12 +20,12 @@ generation only** ([REQ-WIRE-007]).
 | `fix` | `FixMessage::parse` (canonical 4.4 shape + tag-10 checksum), in-place `field`/`field_str`, declared single-level groups (`group`/`FixGroup`/`FixEntry`), flat `iter`, known-type dispatch (`FixMsgType`), and a zero-alloc `FixBuilder` |
 | `scan` | SOH delimiter search: `find_soh` (SWAR oracle, always compiled), `find_soh_reference` (byte loop), `find_soh_simd` (feature `simd`; SSE2/AVX2/NEON via `core::arch`) |
 | `corpus` | deterministic seeded corpus generation from the reference schema ([REQ-WIRE-007]; LCG only, no `rand`) |
-| `error` | `WireError` — the single typed, exhaustive error ([REQ-WIRE-003]) |
+| `error` | `WireError`: the single typed, exhaustive error ([REQ-WIRE-003]) |
 
 ## Guarantees
 
 - **Total decoders** ([REQ-WIRE-003]): malformed, truncated, or hostile input
-  yields a typed `WireError` — never a panic, never an out-of-bounds read.
+  yields a typed `WireError`: never a panic, never an out-of-bounds read.
   Enforced by deny-level lints (`unwrap_used`/`expect_used`/`panic`/
   `indexing_slicing`) on the lib target, a cargo-fuzz target per decoder, and
   miri over the encode/decode suites.
@@ -89,11 +89,11 @@ let _ = m.field(279).unwrap();          // in-place, zero-copy
   primitives (header/group/data-field/encoder) are message-agnostic. The SBE
   schema→Rust codegen is explicitly out of scope.
 - FIX groups: **single-level, declared** groups only; the count tag must match
-  the entries found and must not re-occur inside the group region — violations
+  the entries found and must not re-occur inside the group region: violations
   are the typed `InvalidGroupCount` error. The last entry spans to the
   checksum field (place groups last in the body). Nested groups are rejected
   until spec'd.
-- The tag-10 checksum is a **transport-integrity check only** — sum-mod-256 is
+- The tag-10 checksum is a **transport-integrity check only**: sum-mod-256 is
   trivially weak and is never tamper protection (see SECURITY.md).
 
 ## SIMD dispatch (spec decision 3)
@@ -118,13 +118,13 @@ accessor walk over rotating distinct frames so loads cannot be hoisted).
 
 Hardware/date: Intel i9-11980HK (16 threads, perf scaling governed), Linux,
 rustc 1.98.1, 2026-10-03. **Caveat:** captured on a shared development machine
-under load (LA > 30 on 16 cores); treat absolute values as upper bounds — CI
+under load (LA > 30 on 16 cores); treat absolute values as upper bounds: CI
 records the comparable baseline.
 
 | Bench | Result |
 |---|---|
 | `find_soh` SWAR vs byte loop, 64 B FIX-shaped | 22 ns vs 99 ns (≈4.5×) |
-| `find_soh_simd` (runtime-dispatched AVX2), 64 B | 39 ns — runtime dispatch overhead dominates below ~1 KiB |
+| `find_soh_simd` (runtime-dispatched AVX2), 64 B | 39 ns: runtime dispatch overhead dominates below ~1 KiB |
 | SBE `MdIncrementalRefresh` root + full walk (132 B, 4 entries) | ≈364 ns/frame with every accessor bounds-checked (≈3640 ns for 10 frames in-bench) |
 
 Zero-alloc claims are proven by construction (`no_std` core, no `alloc` in the
@@ -139,7 +139,7 @@ Full estate matrix via
 denied, coverage ≥ 90% per-config (see `COVERAGE-NOTES.md`), cargo-deny,
 cargo-vet, miri over encode/decode suites, thumbv7em `--no-default-features`
 gate (`#![no_std]` claimed), fuzz smoke (30 s per target, fleet §4),
-corpus regen-diff in the standard test gate. **Loom is n/a** — the crate has
+corpus regen-diff in the standard test gate. **Loom is n/a**: the crate has
 no shared-memory concurrency primitives (no atomics, no locks); rationale
 recorded here per the applicability split.
 

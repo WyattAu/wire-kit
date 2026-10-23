@@ -1,4 +1,4 @@
-# Coverage notes — wire-kit
+# Coverage notes: wire-kit
 
 Methodology per the gate plan (spec §Gate plan): **per-config measurement**.
 `--all-features` unions cannot execute non-native intrinsic paths, so the
@@ -14,10 +14,10 @@ denominator is interpreted accordingly.
 
 The union (`--all-features`) build on an x86_64 host executes:
 
-- the SWAR oracle and the byte-loop reference — always;
+- the SWAR oracle and the byte-loop reference: always;
 - the AVX2 intrinsic loop (runtime-detected on the host);
 - **not** the SSE2 intrinsic loop (AVX2 was detected and chosen);
-- **not** the aarch64 NEON module (cfg'd out on x86_64 — a different target
+- **not** the aarch64 NEON module (cfg'd out on x86_64: a different target
   cannot be executed by the union run at all).
 
 Per the gate plan, the non-native intrinsic paths (SSE2 loop under AVX2
@@ -26,9 +26,9 @@ union-coverage denominator by methodology** and documented here rather than
 by coverage attributes (`#[coverage(off)]` is not yet stable on the
 gate toolchain). Their correctness is pinned not by coverage but by:
 
-- `simd_scan_matches_scalar_oracle` — differential property (500 cases) in
+- `simd_scan_matches_scalar_oracle`: differential property (500 cases) in
   both feature states;
-- the `find_soh` fuzz target — asserts SIMD == SWAR == byte-loop on every
+- the `find_soh` fuzz target: asserts SIMD == SWAR == byte-loop on every
   input;
 - unit tests that sweep SOH positions across lane boundaries (8/16/32-byte
   edges) for every oracle pair.
@@ -37,7 +37,7 @@ gate toolchain). Their correctness is pinned not by coverage but by:
 
 - TOTAL: 96.12% lines / 97.18% functions (gate: ≥ 90%).
 - Weakest files and why: `scan.rs` 92.22% (the non-native SIMD paths above),
-  `fix.rs` 93.47% (the builder's unreachable `finish` overflow arm — the
+  `fix.rs` 93.47% (the builder's unreachable `finish` overflow arm: the
   reserve plus per-field bounds make the shuffle provably fit; documented in
   the builder rustdoc).
 

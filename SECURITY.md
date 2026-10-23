@@ -1,4 +1,4 @@
-# Security Policy — wire-kit
+# Security Policy: wire-kit
 
 ## Supported versions
 
@@ -29,7 +29,7 @@ bytes come from; wire-kit guarantees safety of the *decode* regardless.
 |----|--------|------------|
 | T1 | Malformed/truncated frames drive a decoder out of bounds or into a panic (remote crash on hostile feed) | Totality by construction: bounds checked at every field access (`get()`-only access; `unwrap`/`expect`/`panic`/`indexing_slicing` denied at the lib target), exhaustive `WireError`, one cargo-fuzz target per decoder, 30 s CI smokes over committed seeds, miri over the encode/decode suites |
 | T2 | Hostile group counts cause resource amplification (count × block size blowup, allocation storms) | Counts are validated against remaining buffer bytes **before** any iteration; the decoders allocate nothing (no `alloc` in the decode path), so amplification is bounded by the input buffer itself |
-| T3 | Tag-10 checksum treated as tamper protection | Documented as a transport-integrity check only: sum-mod-256 is trivially weak and forgivable by an active attacker. Authenticity must come from the transport (TLS, multicast signing) — never from tag 10 |
+| T3 | Tag-10 checksum treated as tamper protection | Documented as a transport-integrity check only: sum-mod-256 is trivially weak and forgivable by an active attacker. Authenticity must come from the transport (TLS, multicast signing): never from tag 10 |
 | T4 | SIMD and scalar scans diverge on edge inputs (two decoders, two truths) | The scalar/SWAR path is the always-compiled oracle; `simd_scan_matches_scalar_oracle` (differential property, 500 cases) runs in both feature states; the fuzz target asserts equivalence on every input |
 | T5 | Misaligned/UB reads in the `unsafe` SIMD fast path | `unsafe` is confined to the scan module (denied crate-wide, lifted with documented SAFETY blocks); loads are unaligned-but-in-bounds via `get()`-proven chunk lengths; miri runs the suites; odd-offset frames are in the fuzz seeds |
 | T6 | Schema/version drift: decoder accepts wrong-version frames | The SBE header carries `schema_id` + `version`; versions above the supported maximum are rejected with `UnsupportedSchemaVersion`; template mismatches at typed roots reject with `UnknownMessageType` |
@@ -46,10 +46,10 @@ bytes come from; wire-kit guarantees safety of the *decode* regardless.
 
 ### Verification hooks
 
-- `cargo fuzz run <target>` — `sbe_decode`, `fix_parse`, `find_soh`
+- `cargo fuzz run <target>`: `sbe_decode`, `fix_parse`, `find_soh`
   (seeds under `fuzz/corpus/`).
-- `cargo +nightly miri test --lib` — encode/decode suites under miri.
-- `cargo test` — totality sweeps (every truncation prefix of valid frames),
+- `cargo +nightly miri test --lib`: encode/decode suites under miri.
+- `cargo test`: totality sweeps (every truncation prefix of valid frames),
   differential SIMD/scalar properties, corpus regen-diff.
 
 [GitHub security advisories]:
