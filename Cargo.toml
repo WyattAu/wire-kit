@@ -1,6 +1,6 @@
 [package]
 name = "wire-kit"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.85"
 authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/wire-kit"
 homepage = "https://github.com/WyattAu/wire-kit"
 documentation = "https://docs.rs/wire-kit"
-description = "Zero-copy binary wire codecs — SBE block encoding/decoding and FIX 4.4 tag=value, bounds-checked, allocation-free decode"
+description = "Zero-copy binary wire codecs: SBE block encoding and FIX 4.4 tag=value, bounds-checked, allocation-free decode, SIMD-assisted scanning"
 readme = "README.md"
 keywords = ["sbe", "fix", "fix44", "wire", "no-std"]
 categories = ["encoding", "parser-implementations", "no-std"]
